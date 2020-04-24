@@ -1,6 +1,9 @@
 import {DRACOLoader} from './js/Draco/DRACOLoader.js';
 // import { TextureLoader } from './js/three.module.js';
 
+const canvas = document.querySelector('#c');
+
+
 var HEIGHT = window.innerHeight;
 var WIDTH = window.innerWidth;
 
@@ -14,8 +17,8 @@ var camera = new THREE.PerspectiveCamera(60, WIDTH / HEIGHT, 0.1, 10000);
 camera.position.set(-2,1.76,-3.5); // Set position like this
 scene.add(camera);
 
-var renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(WIDTH, HEIGHT);
+var renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(window.devicePixelRatio); 
 
 // renderer.toneMapping = THREE.Uncharted2ToneMapping;
 // renderer.toneMapping = THREE.ReinhardToneMapping;
@@ -64,7 +67,29 @@ new THREE.TextureLoader().load( './model/Environment/hdri3_compressed.jpg', func
 
 pmremGenerator.compileEquirectangularShader();
 
+function resizeRendererToDisplaySize(renderer) {
+    const canvas = renderer.domElement;
+    var width = window.innerWidth;
+    var height = window.innerHeight;
+    var canvasPixelWidth = canvas.width / window.devicePixelRatio;
+    var canvasPixelHeight = canvas.height / window.devicePixelRatio;
+  
+    const needResize = canvasPixelWidth !== width || canvasPixelHeight !== height;
+    if (needResize) {
+      
+      renderer.setSize(width, height, false);
+    }
+    return needResize;
+  }
+
+
 function animate() {
+
+    if (resizeRendererToDisplaySize(renderer)) {
+        const canvas = renderer.domElement;
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.updateProjectionMatrix();
+      }
 
     // camera.rotateOnWorldAxis(new THREE.Vector3(0,1,0),0.0005);
     requestAnimationFrame(animate);
@@ -139,8 +164,9 @@ loader.load("./model/Room2.gltf", function (gltf) {
                 o.material.roughness = 0;
                 o.material.refractionRatio = 0;
                 o.material.opacity = 0.2;
+                o.material.metalness = 1;
                 o.material.envMapIntensity = 30;
-            }else {
+            }else{
                 o.material.envMapIntensity = 1;
             }
             o.material.needsUpdate = true;
@@ -150,6 +176,7 @@ loader.load("./model/Room2.gltf", function (gltf) {
 });
 
 var controls = new THREE.OrbitControls(camera, renderer.domElement);
+
 
 
 animate();
