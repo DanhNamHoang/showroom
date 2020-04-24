@@ -14,7 +14,7 @@ var scene = new THREE.Scene();
 scene.background = new THREE.Color(BACKGROUND_COLOR);
 
 var camera = new THREE.PerspectiveCamera(60, WIDTH / HEIGHT, 0.1, 10000);
-camera.position.set(-2,1.76,-3.5); // Set position like this
+camera.position.set(1.7,1.6,2.6); // Set position like this
 scene.add(camera);
 
 var renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
@@ -124,7 +124,7 @@ interiorAOMap_3.flipY =false;
 
 
 
-loader.load("./model/Room2.gltf", function (gltf) {
+loader.load("./model/Room_2.gltf", function (gltf) {
     model = gltf.scene;
     model.traverse((o)=>{
         if(o.isMesh){
