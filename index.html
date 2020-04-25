@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
-
-<head>
-    <title>Three.js Demo </title>
+  <head>
+    <title>Three.js Demo</title>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="styles.css" />
     <!-- <script src="room_1.js" type="module"></script> -->
     <script src="room_2.js" type="module"></script>
     <!-- <script src="corridor.js" type="module"></script> -->
@@ -12,8 +11,25 @@
     <script src="js/GLTFLoader.js"></script>
     <script src="js/OrbitControls.js"></script>
     <script src="js/RGBELoader.js"></script>
-</head>
-<body>  
-    <canvas id="c"></canvas>
-</body>
+  </head>
+  <body>
+    <div class="welcome-screen" id="welcome-screen">
+        <div id="logo">
+            <img src="raisense-logo.svg" />
+        </div>
+        <div id="title">
+            Welcome to our showroom
+        </div>
+        <div id="showroom-btns">
+            <div id="showroom-btn">Visit</div>
+        </div>
+    </div>
+
+
+      <div class="btn-group">
+          <div class="button" id="room-1">room 2</div>
+      </div>
+      <canvas id="c">
+    </canvas>
+  </body>
 </html>
