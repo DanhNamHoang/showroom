@@ -129,6 +129,7 @@ async function room1() {
 
   loader.load("./model/Room1.gltf", function (gltf) {
     gltf.scene.traverse((o) => {
+      console.log("compressed models")
       if (o.isMesh) {
         console.log(o.name);
         o.material.envMap = envMap;
