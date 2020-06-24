@@ -1,7 +1,10 @@
 import { DRACOLoader } from "./js/Draco/DRACOLoader.js";
-// import { TextureLoader } from './js/three.module.js';
-
+// import { Stats } from "./js/Stats.js";
 const canvas = document.querySelector("#c");
+
+var stats = new Stats();
+stats.showPanel( 1 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild( stats.dom );
 
 var HEIGHT = window.innerHeight;
 var WIDTH = window.innerWidth;
@@ -18,21 +21,13 @@ scene.add(camera);
 var renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setPixelRatio(window.devicePixelRatio);
 
-// renderer.toneMapping = THREE.Uncharted2ToneMapping;
-// renderer.toneMapping = THREE.ReinhardToneMapping;
+
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.8;
 renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.physicallyCorrectLights = true;
 renderer.shadowMap.enabled = true;
 document.body.append(renderer.domElement);
-
-// var ambient_light = new THREE.AmbientLight(0xffffff, 1);
-// scene.add(ambient_light);
-
-var directionalLight = new THREE.DirectionalLight(0xffffff, 0);
-directionalLight.position.set(-3, 4, -6);
-// scene.add(directionalLight);
 
 var pmremGenerator = new THREE.PMREMGenerator(renderer);
 
@@ -76,15 +71,17 @@ function resizeRendererToDisplaySize(renderer) {
 }
 
 function animate() {
+
   if (resizeRendererToDisplaySize(renderer)) {
     const canvas = renderer.domElement;
     camera.aspect = canvas.clientWidth / canvas.clientHeight;
     camera.updateProjectionMatrix();
   }
-
-  // camera.rotateOnWorldAxis(new THREE.Vector3(0,1,0),0.0005);
-  requestAnimationFrame(animate);
+  stats.begin();
   renderer.render(scene, camera);
+  // camera.rotateOnWorldAxis(new THREE.Vector3(0,1,0),0.0005);
+  stats.end();
+  requestAnimationFrame(animate);
 }
 
 const enter_button = document.getElementById("showroom-btn");
@@ -130,7 +127,7 @@ async function room1() {
   );
   interiorAOMap.flipY = false;
 
-  loader.load("./model/Room_1_NoCompression.gltf", function (gltf) {
+  loader.load("./model/Room1.gltf", function (gltf) {
     gltf.scene.traverse((o) => {
       if (o.isMesh) {
         console.log(o.name);
@@ -212,12 +209,14 @@ async function room2() {
   );
   interiorAOMap_3.flipY = false;
 
-  loader.load("./model/Room_2.gltf", function (gltf) {
+  loader.load("./model/Room2.gltf", function (gltf) {
     gltf.scene.traverse((o) => {
       if (o.isMesh) {
         console.log(o.name);
         o.material.envMap = envMap;
         if (o.name.includes("Exterior")) {
+          o.material.metalness = 0;
+          console.log('METALLNES', o.material.metalness);
           o.material.lightMap = exteriorLightMap;
           o.material.lightMapIntensity = 5;
           o.material.aoMap = exteriorAOMap;
