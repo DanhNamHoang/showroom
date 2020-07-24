@@ -66,7 +66,7 @@ pmremGenerator.compileEquirectangularShader();
 
 function animate() {
 
-    // camera.rotateOnWorldAxis(new THREE.Vector3(0,1,0),0.0005);
+    camera.rotateOnWorldAxis(new THREE.Vector3(0,1,0),0.0001);
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
 }

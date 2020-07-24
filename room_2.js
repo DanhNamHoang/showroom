@@ -97,7 +97,7 @@ var room_state = true;
 var room_1 = new THREE.Group();
 var room_2 = new THREE.Group();
 
-state_button.addEventListener("click", loadRoom);
+state_button.addEventListener("mouseover", loadRoom);
 
 async function room1() {
   console.log("btn_pressed");
